@@ -48,16 +48,20 @@ function exportToPDF() {
   doc.text("Nama Pemberi: " + giver, 10, 100);
   doc.text("Nama Penerima: " + receiver, 10, 110);
 
+  // Add notes
+  var notes = document.getElementById('notes').value;
+  doc.text("Keterangan: " + notes, 10, 120);
+
   // Add table headers
-  doc.text("Item", 10, 130);
-  doc.text("Kuantitas", 70, 130);
-  doc.text("Harga", 130, 130);
-  doc.text("Total", 190, 130);
+  doc.text("Item", 10, 140);
+  doc.text("Kuantitas", 70, 140);
+  doc.text("Harga", 130, 140);
+  doc.text("Total", 190, 140);
 
   // Add table data
   var table = document.getElementById('nota-body');
   var rows = table.getElementsByTagName('tr');
-  var startY = 140;
+  var startY = 150;
   for (var i = 0; i < rows.length; i++) {
     var cols = rows[i].getElementsByTagName('td');
     for (var j = 0; j < cols.length; j++) {
@@ -66,6 +70,17 @@ function exportToPDF() {
       doc.text(cols[j].innerText, x, y);
     }
   }
+
+  // Add signature lines
+  doc.text("Tanda Tangan:", 10, startY + rows.length * 10 + 20);
+  doc.line(10, startY + rows.length * 10 + 25, 60, startY + rows.length * 10 + 25);
+  doc.text("Nama Penerima:", 10, startY + rows.length * 10 + 35);
+  doc.line(10, startY + rows.length * 10 + 40, 60, startY + rows.length * 10 + 40);
+
+  doc.text("Tanda Tangan:", 130, startY + rows.length * 10 + 20);
+  doc.line(130, startY + rows.length * 10 + 25, 180, startY + rows.length * 10 + 25);
+  doc.text("Nama Pemberi:", 130, startY + rows.length * 10 + 35);
+  doc.line(130, startY + rows.length * 10 + 40, 180, startY + rows.length * 10 + 40);
 
   // Save the PDF
   doc.save('nota.pdf');
